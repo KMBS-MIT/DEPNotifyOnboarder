@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+<!-- 
+See https://github.com/MacPros/DEPNotifyOnboarder for more information.
+
+Note: Keys read directly by DEPNotify are prefixed with "DEPNotify:" in their description. 
+-->
+
+<!-- ## Policies ## -->
+
+<!--
+The policy array must be formatted "Progress Bar text,customTrigger". These will be
+run in order as they appear below.
+-->
+<key>policies</key>
+<array>
+<string>Installing Adobe Creative Cloud,adobeCC</string>
+<string>Installing Adobe Reader,adobeReader</string>
+<string>Installing Chrome,chrome</string>
+<string>Installing Firefox,firefox</string>
+<string>Installing Zoom,zoom</string>
+<string>Installing NoMAD,nomad</string>
+<string>Installing Office,msOffice</string>
+<string>Installing Webex,webex</string>
+<string>Installing Critical Updates,updateSoftware</string>
+</array>
+
+<!--
+Policies can be called be either a custom trigger or by policy id.
+Select either event, to call the policy by the custom trigger,
+or id to call the policy by id. (Default: event)
+-->
+<key>eventTriggerType</key>
+<string>event</string>
+
+<!-- ## General ## -->
+
+<!--
+Testing flag will enable the following things to change:
+    - Auto removal of BOM files to reduce errors
+    - Sleep commands instead of policies or other changes being called
+    - Quit Key set to command + control + x
+-->
+<key>testingMode</key>
+<true/>
+
+<!--
+Flag script to keep the computer from sleeping. BE VERY CAREFUL WITH THIS FLAG!
+This flag could expose your data to risk by leaving an unlocked computer wide open.
+Only recommended if you are using fullscreen mode and have a logout taking place at
+the end of configuration (like for FileVault). Some folks may use this in workflows
+where IT staff are the primary people setting up the device. The device will be
+allowed to sleep again once the DEPNotify app is quit as caffeinate is looking
+at DEPNotify's process ID.
+-->
+<key>noSleep</key>
+<true/>
+
+<!-- DEPNotify: -->
+<key>pathToPlistFile</key>
+<string>/var/tmp/depnotify_user_input.plist</string>
+
+<!-- ## General Appearance ## -->
+
+<!-- Flag the app to open fullscreen or as a window -->
+<key>fullscreen</key>
+<false/>
+
+<!--
+Banner image can be 600px wide by 100px high. Images will be scaled to fit
+If this variable is left blank, the generic image will appear. If using custom Self
+Service branding, please see the Customized Self Service Branding area below
+-->
+<key>bannerImagePath</key>
+<string>/Applications/Self Service.app/Contents/Resources/AppIcon.icns</string>
+
+<!-- 
+Update the variable below replacing "Organization" with the actual name of 
+your organization. Example "ACME Corp Inc." 
+-->
+<key>orgName</key>
+<string>Organization</string>
+
+<!-- 
+Main heading that will be displayed under the image
+If this variable is left blank, the generic banner will appear
+-->
+<key>bannerTitle</key>
+<string>Welcome to Organization</string>
+
+<!--
+Update the variable below replacing "email helpdesk@company.com" 
+with the actual plaintext instructions for your organization. 
+Example "call 555-1212" or "email helpdesk@company.com"
+-->
+<key>supportContactDetails</key>
+<string>email helpdesk@company.com</string>
+
+<!--
+Paragraph text that will display under the main heading. For a new line, use \\n
+If this variable is left blank, the generic message will appear. Leave single
+quotes below as double quotes will break the new lines.
+-->
+<key>mainText</key>
+<string>We want you to have a few applications and settings configured before you get started with your new Mac. This process should take 10 to 20 minutes to complete. \\n \\n If you need additional software or help, please visit the Self Service app in your Applications folder or on your Dock.</string>
+
+<!-- Initial Start Status text that shows as things are firing up -->
+<key>installStartStatus</key>
+<string>Initial Configuration Starting...</string>
+
+<!-- Text that will display in the progress bar when configuration completes -->
+<key>installCompleteText</key>
+<string>Configuration Complete!</string>
+
+<!-- 
+Complete messaging to the end user can ether be a button at the bottom of the
+app with a modification to the main window text or a dropdown alert box. Default
+value set to false and will use buttons instead of dropdown messages. 
+-->
+<key>completeMethodDropdownAlert</key>
+<false/>
+
+<!-- Text that will display inside the alert once policies have finished when using dropdown alert box. -->
+<key>completeAlertText</key>
+<string>Your Mac is now finished with initial setup and configuration. Press Quit to get started!</string>
+
+<!-- Text that will display inside the alert once policies have finished when not using dropdown alert box. -->
+<key>completeMainText</key>
+<string>Your Mac is now finished with initial setup and configuration.</string>
+<key>completeButtonText</key>
+<string>Get Started!</string>
+
+<!-- DEPNotify: The status text under the progress bar can be configured to be left, right, or center -->
+<key>statusTextAlignment</key>
+<string>center</string>
+
+<!-- Remove the DEPNotifyOnboarder script, Launch Daemon, and DEPNotify when onboarding is complete. -->
+<key>selfDestruct</key>
+</false>
+
+<!-- ## Help Bubble ## -->
+
+<!-- DEPNotify: The help button will appear if title is populated. -->
+<key>helpBubble</key>
+<array>
+    <string>Need Help?</string>
+    <string>This tool is designed to help with new employee onboarding. If you have issues, please give us a call at (877) 590-2511.</string>
+</array>
+
+<!-- ## Self Service ## -->
+
+<!--
+Flag for using the custom branding icon from Self Service and Jamf Pro
+This will override the banner image specified above. If you have changed the
+name of Self Service, make sure to modify the Self Service name below.
+Please note, custom branding is downloaded from Jamf Pro after Self Service has opened
+at least one time. The script is designed to wait until the files have been downloaded.
+This could take a few minutes depending on server and network resources.
+-->
+<key>selfServiceCustomBranding</key>
+<false/>
+
+<!-- If using a name other than Self Service with Custom branding. Keep .app on the end. -->
+<!--
+<key>selfServiceAppName</key>
+<string>Self Service.app</string>
+-->
+
+<!-- Number of seconds to wait for the Self Service custon icon. -->
+<!--
+<key>selfServiceCustomWait</key>
+<integer>20</integer>
+-->
+
+<!-- ## Error Screen ## -->
+<!--
+If testing mode is false and configuration files are present, this text will appear to
+the end user and asking them to contact IT. Limited window options here as the
+assumption is that they need to call IT. No continue or exit buttons will show for
+DEP Notify window and it will not show in fullscreen. IT staff will need to use Terminal
+or Activity Monitor to kill DEP Notify.
+-->
+
+<!-- Main heading that will be displayed under the image -->
+<key>errorBannerTitle</key>
+<string>Setup Failed</string>
+
+<!--
+Paragraph text that will display under the main heading. For a new line, use \\n
+If this variable is left blank, the generic message will appear. Leave single
+quotes below as double quotes will break the new lines.
+-->
+<key>errorMainText</key>
+<string>We are sorry that you are experiencing this inconvenience with your new Mac. However, we have the nerds to get you back up and running in no time! \\n \\n Please contact IT right away and we will take a look at your computer ASAP. \\n \\n</string>
+
+<!-- Error status message that is displayed under the progress bar -->
+<key>errorStatus</key>
+<string>Uh oh, Something Needs Fixing!</string>
+
+<!-- ## FileVault ## -->
+<!--
+Script designed to automatically logout user to start FileVault process if
+deferred enablement is detected. Text displayed if deferred status is on.
+-->
+
+<!-- Option for dropdown alert box -->
+<key>FVAlertText</key>
+<string>Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.</string>
+
+<!-- Options if not using dropdown alert box -->
+<key>FVCompleteMainText</key>
+<string>Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.</string>
+<key>FVCompleteButtonText</key>
+<string>Logout</string>
+
+<!-- ## EULA ## -->
+
+<!-- Enable presenting a EULA -->
+<key>EULAEnabled</key>
+<true/>
+
+<!-- EULA status bar text -->
+<key>EULAStatus</key>
+<string>Waiting on completion of EULA acceptance</string>
+
+<!-- The button text on the main screen used to display the EULA before continuing -->
+<key>EULAButton</key>
+<string>Read and Agree to EULA</string>
+
+<!-- DEPNotify: EULA Screen Title -->
+<key>EULAMainTitle</key>
+<string>Organization End User License Agreement</string>
+
+<!-- DEPNotify: EULA Screen Subtitle -->
+<key>EULASubTitle</key>
+<string>Please agree to the following terms and conditions to start configuration of this Mac</string>
+
+<!--
+DEPNotify:
+Path to the EULA file you would like the user to read and agree to. It is
+best to package this up with Composer or another tool and deliver it to a
+shared area like /Users/Shared/
+-->
+<key>pathToEULA</key>
+<string>/Users/Shared/eula.txt</string>
+
+<!-- ## Registration ## -->
+
+<!-- Enable presenting a customizable registration form -->
+<key>registrationEnabled</key>
+<false/>
+
+<!-- Registration window title -->
+<key>registrationTitle</key>
+<string>Register Mac</string><!-- "Register Mac at Organization" -->
+
+<!-- Registration status bar text -->
+<key>registrationStatus</key>
+<string>Waiting on completion of computer registration</string>
+
+<!-- Registration window submit or finish button text -->
+<key>registrationButton</key>
+<string>Register Your Mac</string>
+
+<!-- 
+The text and pick list sections below will write the following lines out for
+end users. Use the variables below to configure what the sentence says
+Ex: Setting Computer Name to macBook0132
+-->
+<key>registrationBeginWord</key>
+<string>Setting</string>
+<key>registrationMiddleWord</key>
+<string>to</string>
+
+<!--
+DEPNotify: 
+-->
+<key>registrationMainTitle</key>
+<string></string>
+
+<!--
+DEPNotify:
+-->
+<key>registrationButtonLabel</key>
+<string></string>
+
+<!--
+DEPNotify:
+-->
+<key>registrationButtonLabel</key>
+<string></string>
+
+<!-- ### Registration: Textfield 1 ### -->
+
+<!-- DEPNotify: Text Field Label -->
+<key>textField1Label</key>
+<string>Computer Name</string>
+
+<!-- DEPNotify: Place Holder Text -->
+<key>textField1Placeholder</key>
+<string>macBook0123</string>
+
+<!-- DEPNotify: Optional flag for making the field an optional input for end user. -->
+<key>textField1IsOptional</key>
+<false/>
+
+<!-- DEPNotify: Help Bubble for Input. If title left blank, this will not appear. -->
+<key>textField1Bubble</key>
+<array>
+<string>Computer Name Field</string>
+<string>This field is sets the name of your new Mac to what is in the Computer Name box. This is important for inventory purposes.</string>
+</array>
+
+<!-- A custom trigger to call for field 1 when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>textField1CustomTrigger</key>
+<string>registerComputerName</string>
+
+<!-- ### Registration: Textfield 2 ### -->
+
+<!-- DEPNotify: Text Field Label -->
+<key>textField2Label</key>
+<string>Asset Tag</string>
+
+<!-- DEPNotify: Place Holder Text -->
+<key>textField2Placeholder</key>
+<string>81926392</string>
+
+<!-- DEPNotify: Optional flag for making the field an optional input for end user. -->
+<key>textField2IsOptional</key>
+<true/>
+
+<!-- DEPNotify: Help Bubble for Input. If title left blank, this will not appear. -->
+<key>textField2Bubble</key>
+<array>
+<string>Asset Tag Field</string>
+<string>This field is used to give an updated asset tag to our asset management system. If you do not know your asset tag number, please skip this field.</string>
+</array>
+
+<!-- A custom trigger to call for field action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>textField2CustomTrigger</key>
+<string>registerAssetTag</string>
+
+<!-- ### Registration: Popup 1 ### -->
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton1Label</key>
+<string>Building</string>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupMenu1Bubble</key>
+<array>
+<string>Building Dropdown Field</string>
+<string>Please choose the appropriate building for where you normally work. This is important for inventory purposes.</string>
+</array>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton1Content</key>
+<array>
+<string>Amsterdam</string>
+<string>Katowice</string>
+<string>Eau Claire</string>
+<string>Minneapolis</string>
+</array>
+
+<!-- A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>popupButton1CustomTrigger</key>
+<string>registerBuilding</string>
+
+<!-- ### Registration: Popup 2 ### -->
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton2Label</key>
+<string>Department</string>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupMenu2Bubble</key>
+<array>
+<string>Department Dropdown Field</string>
+<string>Please choose the appropriate department for where you normally work. This is important for inventory purposes.</string>
+</array>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton2Content</key>
+<array>
+<string>Customer Onboarding</string>
+<string>Professional Services</string>
+<string>Sales Engineering</string>
+</array>
+
+<!-- A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>popupButton2CustomTrigger</key>
+<string>registerDepartment</string>
+
+<!-- ### Registration: Popup 3 ### -->
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton3Label</key>
+<string>Dropdown 3</string>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupMenu3Bubble</key>
+<array>
+<string>Dropdown 3 Field</string>
+<string>This dropdown is currently not in use.</string>
+</array>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton3Content</key>
+<array>
+<string>Option 1</string>
+<string>Option 2</string>
+<string>Option 3</string>
+</array>
+
+<!-- A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>popupButton3CustomTrigger</key>
+<string>registerDropdown3</string>
+
+<!-- ### Registration: Popup 4 ### -->
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton4Label</key>
+<string>Dropdown 4</string>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupMenu4Bubble</key>
+<array>
+<string>Dropdown 4 Field</string>
+<string>This dropdown is currently not in use.</string>
+</array>
+
+<!-- DEPNotify: Label for the popup -->
+<key>popupButton4Content</key>
+<array>
+<string>Option 1</string>
+<string>Option 2</string>
+<string>Option 3</string>
+</array>
+
+<!-- A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry. -->
+<key>popupButton4CustomTrigger</key>
+<string>registerDropdown4</string>
+
+</dict>
+</plist>
