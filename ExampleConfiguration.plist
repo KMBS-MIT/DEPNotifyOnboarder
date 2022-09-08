@@ -7,6 +7,8 @@
 See https://github.com/MacPros/DEPNotifyOnboarder for more information.
 
 Note: Keys read directly by DEPNotify are prefixed with "DEPNotify:" in their description. 
+
+The preference domain should be set to "menu.nomad.DEPNotify".
 -->
 
 <!-- ## Policies ## -->
@@ -101,8 +103,7 @@ Example "call 555-1212" or "email helpdesk@company.com"
 
 <!--
 Paragraph text that will display under the main heading. For a new line, use \\n
-If this variable is left blank, the generic message will appear. Leave single
-quotes below as double quotes will break the new lines.
+If this variable is left blank, the generic message will appear.
 -->
 <key>mainText</key>
 <string>We want you to have a few applications and settings configured before you get started with your new Mac. This process should take 10 to 20 minutes to complete. \\n \\n If you need additional software or help, please visit the Self Service app in your Applications folder or on your Dock.</string>
@@ -242,7 +243,7 @@ deferred enablement is detected. Text displayed if deferred status is on.
 DEPNotify:
 Path to the EULA file you would like the user to read and agree to. It is
 best to package this up with Composer or another tool and deliver it to a
-shared area like /Users/Shared/
+shared area like /Users/Shared/ or use the "deployTextFile1Path" option.
 -->
 <key>pathToEULA</key>
 <string>/Users/Shared/eula.txt</string>
@@ -279,12 +280,6 @@ Ex: Setting Computer Name to macBook0132
 DEPNotify: 
 -->
 <key>registrationMainTitle</key>
-<string></string>
-
-<!--
-DEPNotify:
--->
-<key>registrationButtonLabel</key>
 <string></string>
 
 <!--

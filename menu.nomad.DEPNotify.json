@@ -1,0 +1,780 @@
+{
+    "title": "DEPNotify Onboarder Settings",
+    "description": "Configuration for the DEPNotify Onboarder deployment script.",
+    "__version": "1.0.0",
+    "__preferencedomain": "menu.nomad.DEPNotify",
+    "links": [
+        {
+            "rel": "DEPNotify Onboarder Documentation, ",
+            "href": "https://github.com/MacPros/DEPNotifyOnboarder"
+        },
+        {
+            "rel": "DEPNotify Documentation",
+            "href": "https://github.com/jamf/DEPNotify"
+        }
+    ],
+    "options": {
+        "remove_empty_properties": true
+    },
+    "properties": {
+
+        "testingMode": {
+            "title": "Testing Mode",
+            "description": "Testing flag will enable the following things to change: (1) Auto removal of BOM files to reduce errors (2) Sleep commands instead of policies or other changes being called (3) Quit Key set to command+control+x",
+            "type": "boolean",
+            "default": true
+        },
+
+        "policies": {
+            "title": "Policies",
+            "description": "The policy array must be formatted \"Progress Bar Text,customTrigger\". These will be run in order as they appear below.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Run Policy"
+            },
+            "default": [ 
+                "Installing Adobe Creative Cloud,adobeCC",
+                "Installing Adobe Reader,adobeReader",
+                "Installing Chrome,chrome",
+                "Installing Firefox,firefox",
+                "Installing Zoom,zoom",
+                "Installing NoMAD,nomad",
+                "Installing Office,msOffice",
+                "Installing Webex,webex",
+                "Installing Critical Updates,updateSoftware"
+            ]
+        },
+
+        "eventTriggerType": {
+            "title": "Jamf Pro Event Trigger Type",
+            "description": "Policies can be called be either a custom trigger or by policy id. Select either event, to call the policy by the custom trigger, or id to call the policy by id.",
+            "type": "string",
+            "enum": [
+                "event",
+                "id"
+            ],
+            "default": "event"
+        },
+
+        "noSleep": {
+            "title": "No Sleep (caffeinate)",
+            "description": "Flag script to keep the computer from sleeping. BE VERY CAREFUL WITH THIS FLAG! This flag could expose your data to risk by leaving an unlocked computer wide open. Only recommended if you are using fullscreen mode and have a logout taking place at the end of configuration (like for FileVault). Some folks may use this in workflows where IT staff are the primary people setting up the device. The device will be allowed to sleep again once the DEPNotify app is quit as caffeinate is looking at DEPNotify's process ID.",
+            "type": "boolean",
+            "default": true
+        },
+
+        "pathToPlistFile": {
+            "title": "Results Plist (DEPNotify)",
+            "description": "Path to plist where Registration and EULA results are recorded.",
+            "type": "string",
+            "default": "/var/tmp/depnotify_user_input.plist"
+        },
+
+        "fullscreen": {
+            "title": "Fullscreen",
+            "description": "Flag the app to open fullscreen or as a window",
+            "type": "boolean",
+            "default": false
+        },
+
+        "bannerImagePath": {
+            "title": "Banner Image Path",
+            "description": "Banner image can be 600px wide by 100px high. Images will be scaled to fit. If this variable is left blank, the generic image will appear. If using custom Self Service branding, please see the Customized Self Service Branding settings.",
+            "type": "string",
+            "default": "/Applications/Self Service.app/Contents/Resources/AppIcon.icns"
+        },
+
+        "orgName": {
+            "title": "Organization Name",
+            "description": "Update the variable below replacing \"Organization\" with the actual name of your organization. Example: \"ACME Corp Inc.\"",
+            "type": "string",
+            "default": "Organization"
+        },
+
+        "bannerTitle": {
+            "title": "Banner Title",
+            "description": "Main heading that will be displayed under the image. If this variable is left blank, the generic banner will appear.",
+            "type": "string",
+            "default": "Welcome to Organization"
+        },
+
+        "supportContactDetails": {
+            "title": "Support Contact Details",
+            "description": "Update the variable below replacing \"email helpdesk@company.com\" with the actual plaintext instructions for your organization. Example: \"call 555-1212\" or \"email helpdesk@company.com\"",
+            "type": "string",
+            "default": "email helpdesk@company.com"
+        },
+
+        "mainText": {
+            "title": "Main Text",
+            "description": "Paragraph text that will display under the main heading. For a new line, use '\\n' If this variable is left blank, the generic message will appear.",
+            "type": "string",
+            "default": "We want you to have a few applications and settings configured before you get started with your new Mac. This process should take 10 to 20 minutes to complete. \\n \\n If you need additional software or help, please visit the Self Service app in your Applications folder or on your Dock."
+        },
+
+        "installStartStatus": {
+            "title": "Install Start Status Message",
+            "description": "Initial Start Status text that shows as things are firing up",
+            "type": "string",
+            "default": "Initial Configuration Starting..."
+        },
+
+        "installCompleteText": {
+            "title": "Install Complete Status Message",
+            "description": "Text that will display in the progress bar when configuration completes",
+            "type": "string",
+            "default": "Configuration Complete!"
+        },
+
+        "completeMethodDropdownAlert": {
+            "title": "Use Complete Method Dropdown Alert",
+            "description": "Complete messaging to the end user can ether be a button at the bottom of the app with a modification to the main window text or a dropdown alert box. Default value set to false and will use buttons instead of dropdown messages.",
+            "type": "boolean",
+            "default": false
+        },
+
+        "completeAlertText": {
+            "title": "Install Complete Alert Text",
+            "description": "Text that will display inside the alert once policies have finished when using dropdown alert box.",
+            "type": "string",
+            "default": "Your Mac is now finished with initial setup and configuration. Press Quit to get started!"
+        },
+
+        "completeMainText": {
+            "title": "Install Complete Status Message",
+            "description": "Main text that will display inside the alert once policies have finished when not using dropdown alert box.",
+            "type": "string",
+            "default": "Your Mac is now finished with initial setup and configuration."
+        },
+
+        "completeButtonText": {
+            "title": "Install Complete Status Message",
+            "description": "Button text that will display inside the alert once policies have finished when not using dropdown alert box.",
+            "type": "string",
+            "default": "Get Started!"
+        },
+
+        "statusTextAlignment": {
+            "title": "Status Text Alignment (DEPNotify)",
+            "description": "The status text under the progress bar can be configured to be left, right, or center.",
+            "type": "string",
+            "enum": [
+                "left",
+                "right",
+                "center"
+            ],
+            "default": "center"
+        },
+
+        "selfDestruct": {
+            "title": "Self Destruct",
+            "description": "Remove the DEPNotifyOnboarder script, Launch Daemon, and DEPNotify when onboarding is complete.",
+            "type": "boolean",
+            "default": false
+        },
+
+        "helpBubble": {
+            "title": "Help Bubble Text (DEPNotify)",
+            "description": "The help button will appear if title is populated. This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Need Help?",
+                "This tool is designed to help with new employee onboarding. If you have issues, please give us a call at (877) 590-2511."
+            ]
+        },
+
+        "selfServiceCustomBranding": {
+            "title": "Self Service - Custom Branding",
+            "description": "Flag for using the custom branding icon from Self Service and Jamf Pro. This will override the banner image specified above. If you have changed the name of Self Service, make sure to modify the Self Service name below. Please note, custom branding is downloaded from Jamf Pro after Self Service has opened at least one time. The script is designed to wait until the files have been downloaded. This could take a few minutes depending on server and network resources.",
+            "type": "boolean",
+            "default": false
+        },
+
+        "selfServiceAppName": {
+            "title": "Self Service - App Name",
+            "description": "If using a name other than Self Service with Custom branding. Keep .app on the end.",
+            "type": "string",
+            "default": "Self Service.app"
+        },
+
+        "selfServiceCustomWait": {
+            "title": "Self Service - Custom Wait (Seconds)",
+            "description": "Number of seconds to wait for the Self Service custon icon.",
+            "type": "integer",
+            "default": 20
+        },
+
+        "errorBannerTitle": {
+            "title": "Error - Banner Title",
+            "description": "Main heading that will be displayed under the image",
+            "type": "string",
+            "default": "Setup Failed"
+        },
+
+        "errorMainText": {
+            "title": "Error - Main Text",
+            "description": "Paragraph text that will display under the main heading. For a new line, use \"\\n\" If this variable is left blank, the generic message will appear.",
+            "type": "string",
+            "default": "We are sorry that you are experiencing this inconvenience with your new Mac. However, we have the nerds to get you back up and running in no time! \\n \\n Please contact IT right away and we will take a look at your computer ASAP. \\n \\n"
+        },
+
+        "errorStatus": {
+            "title": "Error - Status Message",
+            "description": "Error status message that is displayed under the progress bar",
+            "type": "string",
+            "default": "Uh oh, Something Needs Fixing!"
+        },
+
+        "FVAlertText": {
+            "title": "FileVault - Alert Text",
+            "description": "Option for dropdown alert box",
+            "type": "string",
+            "default": "Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place."
+        },
+
+        "FVCompleteMainText": {
+            "title": "FileVault - Complete Main Text",
+            "description": "Main Text if not using dropdown alert box",
+            "type": "string",
+            "default": "Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place."
+        },
+
+        "FVCompleteButtonText": {
+            "title": "FileVault - Complete Button Text",
+            "description": "Button Text if not using dropdown alert box",
+            "type": "string",
+            "default": "Logout"
+        },
+
+        "EULAEnabled": {
+            "title": "EULA - Enabled",
+            "description": "Enable presenting a EULA",
+            "type": "boolean",
+            "default": false
+        },
+
+        "EULAStatus": {
+            "title": "EULA - Status Message",
+            "description": "EULA status bar text",
+            "type": "string",
+            "default": "Waiting on completion of EULA acceptance"
+        },
+
+        "EULAButton": {
+            "title": "EULA - Button",
+            "description": "The button text on the main screen used to display the EULA before continuing",
+            "type": "string",
+            "default": "Read and Agree to EULA"
+        },
+
+        "EULAMainTitle": {
+            "title": "EULA - Main Title (DEPNotify)",
+            "description": "The EULA screen title",
+            "type": "string",
+            "default": "Organization End User License Agreement"
+        },
+
+        "EULASubTitle": {
+            "title": "EULA - Main Subtitle (DEPNotify)",
+            "description": "The EULA screen title",
+            "type": "string",
+            "default": "Please agree to the following terms and conditions to start configuration of this Mac"
+        },
+
+        "pathToEULA": {
+            "title": "EULA - Path to EULA (DEPNotify)",
+            "description": "Path to the EULA file you would like the user to read and agree to. It is best to package this up with Composer or another tool and deliver it to a shared area like /Users/Shared/ or use the \"deployTextFile1Path\" option.",
+            "type": "string",
+            "default": "/Users/Shared/eula.txt"
+        },
+
+        "registrationEnabled": {
+            "title": "Registration - Enabled",
+            "description": "Enable presenting a customizable registration form",
+            "type": "boolean",
+            "default": false
+        },
+
+        "registrationTitle": {
+            "title": "Registration - Title",
+            "description": "Registration window title. Suggested text: \"Register Mac at Organization\"",
+            "type": "string",
+            "default": "Register Mac"
+        },
+
+        "registrationStatus": {
+            "title": "Registration - Status Message",
+            "description": "Registration status bar text",
+            "type": "string",
+            "default": "Waiting on completion of computer registration"
+        },
+
+        "registrationButton": {
+            "title": "Registration - Button Label",
+            "description": "Registration window submit or finish button text",
+            "type": "string",
+            "default": "Register Your Mac"
+        },
+
+        "registrationBeginWord": {
+            "title": "Registration - Begin Word",
+            "description": "The text and pick list sections below will write the following lines out for end users. Use the variables below to configure what the sentence says. Example: Setting Computer Name to macBook0132",
+            "type": "string",
+            "default": "Setting"
+        },
+
+        "registrationMiddleWord": {
+            "title": "Registration - Middle Word",
+            "description": "The text and pick list sections below will write the following lines out for end users. Use the variables below to configure what the sentence says. Example: Setting Computer Name to macBook0132",
+            "type": "string",
+            "default": "to"
+        },
+
+        "registrationMainTitle": {
+            "title": "Registration - Main Title (DEPNotify)",
+            "description": "Registration screen main title",
+            "type": "string",
+            "default": ""
+        },
+
+        "registrationButtonLabel": {
+            "title": "Registration - Button Label (DEPNotify)",
+            "description": "Registration screen main title",
+            "type": "string",
+            "default": ""
+        },
+
+        "textField1Label": {
+            "title": "Text Field 1 - Label (DEPNotify)",
+            "description": "",
+            "type": "string",
+            "default": "Computer Name"
+        },
+
+        "textField1Placeholder": {
+            "title": "Text Field 1 - Place Holder Text (DEPNotify)",
+            "description": "",
+            "type": "string",
+            "default": "macBook0123"
+        },
+
+        "textField1IsOptional": {
+            "title": "Text Field 1 - Is Optional (DEPNotify)",
+            "description": "",
+            "type": "boolean",
+            "default": false
+        },
+
+        "textField1Bubble": {
+            "title": "Text Field 1 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Computer Name Field",
+                "This field is sets the name of your new Mac to what is in the Computer Name box. This is important for inventory purposes."
+            ]
+        },
+
+        "textField1CustomTrigger": {
+            "title": "Text Field 1 - Custom Trigger",
+            "description": "A custom trigger to call for field 1 when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerComputerName"
+        },
+
+        "textField2Label": {
+            "title": "Text Field 2 - Label (DEPNotify)",
+            "description": "",
+            "type": "string",
+            "default": "Asset Tag"
+        },
+
+        "textField2Placeholder": {
+            "title": "Text Field 2 - Place Holder Text (DEPNotify)",
+            "description": "",
+            "type": "string",
+            "default": "81926392"
+        },
+
+        "textField2IsOptional": {
+            "title": "Text Field 2 - Is Optional (DEPNotify)",
+            "description": "",
+            "type": "boolean",
+            "default": true
+        },
+
+        "textField2Bubble": {
+            "title": "Text Field 2 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Asset Tag Field",
+                "This field is used to give an updated asset tag to our asset management system. If you do not know your asset tag number, please skip this field."
+            ]
+        },
+
+        "textField2CustomTrigger": {
+            "title": "Text Field 2 - Custom Trigger",
+            "description": "A custom trigger to call for field 2 when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerAssetTag"
+        },
+ 
+        "popupButton1Label": {
+            "title": "Popup Field 1 - Label (DEPNotify)",
+            "description": "Label for the popup",
+            "type": "string",
+            "default": "Building"
+        },
+
+        "popupMenu1Bubble": {
+            "title": "Popup Field 1 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Building Dropdown Field",
+                "Please choose the appropriate building for where you normally work. This is important for inventory purposes."
+            ]
+        },
+
+        "popupButton1Content": {
+            "title": "Popup Field 1 - Content (DEPNotify)",
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Option"
+            },
+            "default": [ 
+                "Amsterdam",
+                "Katowice",
+                "Eau Claire",
+                "Minneapolis"
+            ]
+        },
+
+        "popupButton1CustomTrigger": {
+            "title": "Popup Field 1 - Custom Trigger",
+            "description": "A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerBuilding"
+        },
+ 
+        "popupButton2Label": {
+            "title": "Popup Field 2 - Label (DEPNotify)",
+            "description": "Label for the popup",
+            "type": "string",
+            "default": "Department"
+        },
+
+        "popupMenu2Bubble": {
+            "title": "Popup Field 2 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Department Dropdown Field",
+                "Please choose the appropriate department for where you normally work. This is important for inventory purposes."
+            ]
+        },
+
+        "popupButton2Content": {
+            "title": "Popup Field 2 - Content (DEPNotify)",
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Option"
+            },
+            "default": [ 
+                "Customer Onboarding",
+                "Professional Services",
+                "Sales Engineering"
+            ]
+        },
+
+        "popupButton2CustomTrigger": {
+            "title": "Popup Field 2 - Custom Trigger",
+            "description": "A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerDepartment"
+        },
+ 
+
+        "popupButton3Label": {
+            "title": "Popup Field 3 - Label (DEPNotify)",
+            "description": "Label for the popup",
+            "type": "string",
+            "default": "Dropdown 3"
+        },
+
+        "popupMenu3Bubble": {
+            "title": "Popup Field 3 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Dropdown 3 Field",
+                "This dropdown is currently not in use."
+            ]
+        },
+
+        "popupButton3Content": {
+            "title": "Popup Field 3 - Content (DEPNotify)",
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Option"
+            },
+            "default": [ 
+                "Option 1",
+                "Option 2",
+                "Option 3"            
+            ]
+        },
+
+        "popupButton3CustomTrigger": {
+            "title": "Popup Field 3 - Custom Trigger",
+            "description": "A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerDropdown3"
+        },
+ 
+
+        "popupButton4Label": {
+            "title": "Popup Field 4 - Label (DEPNotify)",
+            "description": "Label for the popup",
+            "type": "string",
+            "default": "Dropdown 4"
+        },
+
+        "popupMenu4Bubble": {
+            "title": "Popup Field 4 - Bubble Text (DEPNotify)",
+            "description": "This array should have two lines for title and content.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Line"
+            },
+            "default": [ 
+                "Dropdown 4 Field",
+                "This dropdown is currently not in use."
+            ]
+        },
+
+        "popupButton4Content": {
+            "title": "Popup Field 4 - Content (DEPNotify)",
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Option"
+            },
+            "default": [ 
+                "Option 1",
+                "Option 2",
+                "Option 3"   
+            ]
+        },
+
+        "popupButton4CustomTrigger": {
+            "title": "Popup Field 4 - Custom Trigger",
+            "description": "A custom trigger to call for popup action and validation when registration is complete. The value may be deleted from the DEPNotify plist to force re-entry.",
+            "type": "string",
+            "default": "registerDropdown4"
+        },
+ 
+        "deployDataFile1Path": {
+            "title": "Deploy Data File 1 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile1Data": {
+            "title": "Deploy Data File 1 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+ 
+        "deployDataFile2Path": {
+            "title": "Deploy Data File 2 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile2Data": {
+            "title": "Deploy Data File 2 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile3Path": {
+            "title": "Deploy Data File 3 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile3Data": {
+            "title": "Deploy Data File 3 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile4Path": {
+            "title": "Deploy Data File 4 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile4Data": {
+            "title": "Deploy Data File 4 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile5Path": {
+            "title": "Deploy Data File 5 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile5Data": {
+            "title": "Deploy Data File 5 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile6Path": {
+            "title": "Deploy Data File 6 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployDataFile6Data": {
+            "title": "Deploy Data File 6 - Base64 Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile1Path": {
+            "title": "Deploy Text File 1 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile1Data": {
+            "title": "Deploy Text File 1 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+ 
+        "deployTextFile2Path": {
+            "title": "Deploy Text File 2 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile2Data": {
+            "title": "Deploy Text File 2 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile3Path": {
+            "title": "Deploy Text File 3 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile3Data": {
+            "title": "Deploy Text File 3 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile4Path": {
+            "title": "Deploy Text File 4 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile4Data": {
+            "title": "Deploy Text File 24 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile5Path": {
+            "title": "Deploy Text File 5 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile5Data": {
+            "title": "Deploy Text File 5 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile6Path": {
+            "title": "Deploy Text File 6 - Path",
+            "description": "",
+            "type": "string",
+            "default": ""
+        },
+
+        "deployTextFile6Data": {
+            "title": "Deploy Text File 6 - Text Data",
+            "description": "",
+            "type": "string",
+            "default": ""
+        }
+        
+    }
+}
