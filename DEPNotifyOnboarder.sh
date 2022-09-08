@@ -387,8 +387,9 @@ debugDescription "Registration" registrationEnabled registrationTitle \
 IFS=$'\n'
 declare -a -r policies=($(arrayForKey policies))
 unset IFS
+declare -r inventoryCustomTrigger="$(valueForKey inventoryCustomTrigger -defaultValue "inventoryUpdate")"
 
-debugDescription "Policy List" policies
+debugDescription "Policy List" policies inventoryCustomTrigger
 
 # Deploy Files Configuration
 declare -r deployDataFile1Path="$(valueForKey deployDataFile1Path -defaultValue "")"
@@ -602,7 +603,12 @@ for policy in "${policies[@]}" ; do
         debugLog "Running policy '$(echo "$policy" | cut -d ',' -f2)'."
         /bin/sleep 10
     else 
-        /usr/local/bin/jamf policy -event "$(echo "$policy" | cut -d ',' -f2)"
+        customTrigger="$(echo "$policy" | cut -d ',' -f2)"
+        if [ "$customTrigger" != "$inventoryCustomTrigger" ]; then
+            /usr/local/bin/jamf policy -event "$customTrigger" -forceNoRecon
+        else
+            /usr/local/bin/jamf policy -event "$customTrigger"
+        fi
     fi
 done
 

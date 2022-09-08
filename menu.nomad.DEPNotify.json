@@ -42,7 +42,8 @@
                 "Installing NoMAD,nomad",
                 "Installing Office,msOffice",
                 "Installing Webex,webex",
-                "Installing Critical Updates,updateSoftware"
+                "Installing Critical Updates,updateSoftware",
+                "Update Inventory,inventoryUpdate"
             ]
         },
 
@@ -55,6 +56,13 @@
                 "id"
             ],
             "default": "event"
+        },
+
+        "inventoryCustomTrigger": {
+            "title": "Inventory Custom Trigger",
+            "description": "The name of a policy to allow inventory updates on.",
+            "type": "string",
+            "default": "inventoryUpdate"
         },
 
         "noSleep": {
