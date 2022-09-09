@@ -6,6 +6,8 @@
 	<string>us.konicaminolta.kmbs.DEPNotifyOnboarder</string>
 	<key>LaunchOnlyOnce</key>
 	<true/>
+	<key>AbandonProcessGroup</key>
+	<true/>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>ProgramArguments</key>
