@@ -21,10 +21,12 @@ fi
 /bin/mkdir -p "$tempFolder"
 /bin/mkdir -p "$tempFolder/root/Library/Application Support/DEPNotify/"
 /bin/mkdir -p "$tempFolder/root/Library/LaunchDaemons/"
+/bin/mkdir -p "$tempFolder/root/Applications/Utilities/"
 
 /bin/cp ./DEPNotifyOnboarder.sh "$tempFolder/root/Library/Application Support/DEPNotify/"
 /bin/cp ./DEPNotifyReset.sh "$tempFolder/root/Library/Application Support/DEPNotify/"
 /bin/cp ./LaunchDaemons/us.konicaminolta.kmbs.DEPNotifyOnboarder.plist "$tempFolder/root/Library/LaunchDaemons/"
+/usr/bin/ditto ./Utilities/DEPNotify.app/ "$tempFolder/root/Applications/Utilities/DEPNotify.app/"
 
 mkdir "$tempFolder/scripts"
 cat << EOF > "$tempFolder/scripts/postinstall"
