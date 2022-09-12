@@ -327,6 +327,7 @@ declare -r errorStatus="$(valueForKey errorBannerTitle -defaultValue "Setup Fail
 debugDescription "Error Screen" errorBannerTitle errorMainText errorStatus
 
 # FileVault Configuration
+declare -r FVRestartEnabled="$(valueForKey FVRestartEnabled -defaultValue true)"
 declare -r FVAlertText="$(valueForKey FVAlertText -defaultValue "Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.")"
 declare -r FVCompleteMainText="$(valueForKey FVCompleteMainText -defaultValue 'Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.')"
 declare -r FVCompleteButtonText="$(valueForKey FVCompleteButtonText -defaultValue "Logout")"
@@ -616,31 +617,35 @@ done
 logStatus "$installCompleteText"
 /usr/bin/touch "$DEPNotifyOnboarderDoneFile"
 
-# Check to see if FileVault Deferred enablement is active
-declare -r FVDeferredStatus="$(/usr/bin/fdesetup status | grep "Deferred" | cut -d ' ' -f6)"
+if [ "$FVRestartEnabled" = true ] ; then
 
-# Logic to log user out if FileVault is detected. Otherwise, app will close.
-if [ "$FVDeferredStatus" = active ] && [ "$testingMode" = true ] ; then
-    if [ "$completeMethodDropdownAlert" = true ]; then
-        logCommand Quit "This is typically where your 'FVLogoutText' would be displayed. However, 'testingMode' is set to true and FileVault deferred status is on."
+    # Check to see if FileVault Deferred enablement is active
+    declare -r FVDeferredStatus="$(/usr/bin/fdesetup status | grep "Deferred" | cut -d ' ' -f6)"
+
+    # Logic to log user out if FileVault is detected. Otherwise, app will close.
+    if [ "$FVDeferredStatus" = active ] && [ "$testingMode" = true ] ; then
+        if [ "$completeMethodDropdownAlert" = true ]; then
+            logCommand Quit "This is typically where your 'FVLogoutText' would be displayed. However, 'testingMode' is set to true and FileVault deferred status is on."
+        else
+            logCommand MainText "'testingMode' is set to true and FileVault deferred status is on. Button effect is quit instead of logout. \n \n $FVCompleteMainText"
+            logCommand ContinueButton "Test $FVCompleteButtonText"
+        fi
+    elif [ "$FVDeferredStatus" = active ] && [ "$testingMode" = false ] ; then
+        if [ "$completeMethodDropdownAlert" = true ]; then
+            logCommand Logout "$FVAlertText"
+        else
+            logCommand MainText "$FVCompleteMainText"
+            logCommand ContinueButtonLogout "$FVCompleteButtonText"
+        fi
     else
-        logCommand MainText "'testingMode' is set to true and FileVault deferred status is on. Button effect is quit instead of logout. \n \n $FVCompleteMainText"
-        logCommand ContinueButton "Test $FVCompleteButtonText"
+        if [ "$completeMethodDropdownAlert" = true ]; then
+            logCommand Quit "$FVAlertText"
+        else
+            logCommand MainText "$FVCompleteMainText"
+            logCommand ContinueButton "$FVCompleteButtonText"
+        fi
     fi
-elif [ "$FVDeferredStatus" = active ] && [ "$testingMode" = false ] ; then
-    if [ "$completeMethodDropdownAlert" = true ]; then
-        logCommand Logout "$FVAlertText"
-    else
-        logCommand MainText "$FVCompleteMainText"
-        logCommand ContinueButtonLogout "$FVCompleteButtonText"
-    fi
-else
-    if [ "$completeMethodDropdownAlert" = true ]; then
-        logCommand Quit "$FVAlertText"
-    else
-        logCommand MainText "$FVCompleteMainText"
-        logCommand ContinueButton "$FVCompleteButtonText"
-    fi
+
 fi
 
 # Remove the DEPNotifyOnboarder script, Launch Daemon, and DEPNotify when onboarding is complete.

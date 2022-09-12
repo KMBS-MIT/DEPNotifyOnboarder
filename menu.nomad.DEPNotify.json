@@ -1,7 +1,7 @@
 {
     "title": "DEPNotify Onboarder Settings",
     "description": "Configuration for the DEPNotify Onboarder deployment script.",
-    "__version": "1.0.0",
+    "__version": "1.0.1",
     "__preferencedomain": "menu.nomad.DEPNotify",
     "links": [
         {
@@ -236,6 +236,13 @@
             "description": "Error status message that is displayed under the progress bar",
             "type": "string",
             "default": "Uh oh, Something Needs Fixing!"
+        },
+
+        "FVRestartEnabled": {
+            "title": "FV - Restart Enabled",
+            "description": "Enable restart for deferred FileVault enablement",
+            "type": "boolean",
+            "default": true
         },
 
         "FVAlertText": {
