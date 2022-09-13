@@ -42,6 +42,10 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
+## Notice
+
+- Launching Self Service on deployment completion currently crashes Self Service when initiated through DEP enrollment. Work around this by using a deploymentComplete custom trigger to launch Self Service.
+
 ## Alternatives
 
 - [DEPNotify-Starter](https://github.com/jamf/DEPNotify-Starter)
