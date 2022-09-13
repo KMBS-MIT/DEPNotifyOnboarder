@@ -2,17 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
 	<key>Label</key>
 	<string>us.konicaminolta.kmbs.DEPNotifyOnboarder</string>
+
 	<key>LaunchOnlyOnce</key>
 	<true/>
+
 	<key>AbandonProcessGroup</key>
 	<true/>
+
 	<key>RunAtLoad</key>
 	<true/>
+
+	<!-- Force to root to ensure the script is not launched as _mbsetupuser. -->
+	<key>UserName</key> 
+	<string>root</string>
+	
 	<key>ProgramArguments</key>
 	<array>
 		<string>/Library/Application Support/DEPNotify/DEPNotifyOnboarder.sh</string>
 	</array>
+	
 </dict>
 </plist>
