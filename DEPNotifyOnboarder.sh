@@ -26,7 +26,7 @@
 #
 
 # TODO: Support validation and re-entering the registration screen. This will be implemented with a Jamf Policy. The policy could fail or the registration information removed to retry.
-# TODO: Add support for adding resources.
+# TODO: Support launching self service at end.
 
 #  -----------------------------------------------------------------------------
 
@@ -181,7 +181,7 @@ waitForProcessToComplete() {
     local pid
     pid="$(lookupPID "$processName")"
     until [ "$pid" = "" ]; do
-        debugLog "$message (PID $pid)" 
+        #debugLog "$message (PID $pid)" 
         /bin/sleep 1
         pid="$(lookupPID "$processName")"
     done
@@ -199,7 +199,7 @@ waitForProcessToStart() {
     local pid 
     pid="$(lookupPID "$processName")"
     until [ "$pid" != "" ]; do
-        debugLog "$message (PID $pid)" 
+        #debugLog "$message (PID $pid)" 
         /bin/sleep 1
         pid="$(lookupPID "$processName")"
     done
@@ -315,6 +315,7 @@ debugDescription "General Appearance" fullscreen bannerImagePath orgName bannerT
 declare -r selfServiceCustomBranding="$(valueForKey selfServiceCustomBranding -defaultValue false)"
 declare -r selfServiceAppName="$(valueForKey selfServiceAppName -defaultValue "Self Service.app")"
 declare -r selfServiceCustomWait="$(valueForKey selfServiceCustomWait -defaultValue 20)"
+declare -r launchSelfService="$(valueForKey launchSelfService -defaultValue true)"
 
 debugDescription "Self Service" selfServiceCustomBranding selfServiceAppName selfServiceCustomWait
 
@@ -327,12 +328,12 @@ declare -r errorStatus="$(valueForKey errorBannerTitle -defaultValue "Setup Fail
 debugDescription "Error Screen" errorBannerTitle errorMainText errorStatus
 
 # FileVault Configuration
-declare -r FVRestartEnabled="$(valueForKey FVRestartEnabled -defaultValue true)"
+declare -r FVRestartEnabled="$(valueForKey FVRestartEnabled -defaultValue false)"
 declare -r FVAlertText="$(valueForKey FVAlertText -defaultValue "Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.")"
 declare -r FVCompleteMainText="$(valueForKey FVCompleteMainText -defaultValue 'Your Mac must logout to start the encryption process. You will be asked to enter your password and click OK or Continue a few times. Your Mac will be usable while encryption takes place.')"
 declare -r FVCompleteButtonText="$(valueForKey FVCompleteButtonText -defaultValue "Logout")"
 
-debugDescription "FileVault" fvAlertText fvCompleteMainText fvCompleteButtonText
+debugDescription "FileVault" FVRestartEnabled FVAlertText FVCompleteMainText FVCompleteButtonText
 
 # EULA Configuration
 declare -r EULAEnabled="$(valueForKey EULAEnabled -defaultValue false)" # Enables EULA acceptance check
@@ -600,7 +601,7 @@ fi
 # Loop to run policies
 for policy in "${policies[@]}" ; do
     logStatus "$(echo "$policy" | cut -d ',' -f1)"
-    if [ "$testingMode" = true ]; then
+    if [ "$testingMode" = true ] ; then
         debugLog "Running policy '$(echo "$policy" | cut -d ',' -f2)'."
         /bin/sleep 10
     else 
@@ -642,10 +643,19 @@ if [ "$FVRestartEnabled" = true ] ; then
             logCommand Quit "$FVAlertText"
         else
             logCommand MainText "$FVCompleteMainText"
-            logCommand ContinueButton "$FVCompleteButtonText"
+            logCommand ContinueButton "$FVCompleteButtonText"   
         fi
     fi
 
+else
+
+    logCommand MainText "$completeMainText"
+    logCommand ContinueButton "$completeButtonText"
+    if [ "$launchSelfService" = true ] ; then
+        waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
+        /bin/launchctl asuser "$currentUID" /usr/bin/open -a "/Applications/$selfServiceAppName"
+    fi
+    
 fi
 
 # Remove the DEPNotifyOnboarder script, Launch Daemon, and DEPNotify when onboarding is complete.

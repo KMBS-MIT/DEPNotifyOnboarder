@@ -217,6 +217,13 @@
             "default": 20
         },
 
+        "launchSelfService": {
+            "title": "Launch Self Service",
+            "description": "Launch the Self Service app when onboarding is complete.",
+            "type": "boolean",
+            "default": false
+        },
+
         "errorBannerTitle": {
             "title": "Error - Banner Title",
             "description": "Main heading that will be displayed under the image",
