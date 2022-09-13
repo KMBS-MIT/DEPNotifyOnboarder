@@ -432,7 +432,7 @@ declare -i i=0
 for i in {1..6} ; do
     declare dataProperty="deployDataFile${i}Path"
     deployDataFile "${(P)dataProperty}" "$(valueForKey "deployDataFile${i}Data" -defaultValue "")"
-    declare textProperty="deployDataFile${i}Path"
+    declare textProperty="deployTextFile${i}Path"
     deployTextFile "${(P)textProperty}" "$(valueForKey "deployTextFile${i}Data" -defaultValue "")"
 done
 
