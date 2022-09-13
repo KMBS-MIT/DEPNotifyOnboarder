@@ -218,7 +218,7 @@
         },
 
         "launchSelfService": {
-            "title": "Self Service - Launch on Completion",
+            "title": "Self Service - Launch on Completion (Experimental)",
             "description": "Launch Self Service after DEPNotify exits.",
             "type": "boolean",
             "default": false

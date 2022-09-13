@@ -653,7 +653,7 @@ else
     logCommand ContinueButton "$completeButtonText"
     if [ "$launchSelfService" != "" ] ; then
         waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
-        /bin/launchctl asuser "$currentUID" sudo -u "$currentUser" /usr/bin/open -a "/Applications/$selfServiceAppName"
+        /bin/launchctl asuser "$currentUID" sudo -u "$currentUser" /usr/bin/osascript -e 'tell application "Self Service" to activate'
     fi
     if [ "$completeCustomTrigger" != "" ] ; then
         waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
