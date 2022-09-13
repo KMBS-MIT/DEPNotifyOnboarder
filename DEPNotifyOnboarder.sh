@@ -26,7 +26,6 @@
 #
 
 # TODO: Support validation and re-entering the registration screen. This will be implemented with a Jamf Policy. The policy could fail or the registration information removed to retry.
-# TODO: Support launching self service at end.
 
 #  -----------------------------------------------------------------------------
 
@@ -305,17 +304,17 @@ declare -r completeMethodDropdownAlert="$(valueForKey completeMethodDropdownAler
 declare -r completeAlertText="$(valueForKey completeAlertText -defaultValue "Your Mac is now finished with initial setup and configuration. Press Quit to get started!")"
 declare -r completeMainText="$(valueForKey completeMainText -defaultValue 'Your Mac is now finished with initial setup and configuration.')"
 declare -r completeButtonText="$(valueForKey completeButtonText -defaultValue "Get Started!")"
+declare -r completeCustomTrigger="$(valueForKey completeCustomTrigger -defaultValue "deploymentComplete")"
 declare -r statusTextAlignment="$(valueForKey statusTextAlignment -defaultValue "")" # DEPNotify key
 
 debugDescription "General Appearance" fullscreen bannerImagePath orgName bannerTitle \
     supportContactDetails mainText installStartStatus installCompleteText completeMethodDropdownAlert \
-    completeAlertText completeMainText completeButtonText statusTextAlignment
+    completeAlertText completeMainText completeButtonText completeCustomTrigger statusTextAlignment
 
 # Self Service Configuration
 declare -r selfServiceCustomBranding="$(valueForKey selfServiceCustomBranding -defaultValue false)"
 declare -r selfServiceAppName="$(valueForKey selfServiceAppName -defaultValue "Self Service.app")"
 declare -r selfServiceCustomWait="$(valueForKey selfServiceCustomWait -defaultValue 20)"
-declare -r launchSelfService="$(valueForKey launchSelfService -defaultValue true)"
 
 debugDescription "Self Service" selfServiceCustomBranding selfServiceAppName selfServiceCustomWait
 
@@ -651,9 +650,9 @@ else
 
     logCommand MainText "$completeMainText"
     logCommand ContinueButton "$completeButtonText"
-    if [ "$launchSelfService" = true ] ; then
+    if [ "$completeCustomTrigger" != "" ] ; then
         waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
-        /bin/launchctl asuser "$currentUID" /usr/bin/open -a "/Applications/$selfServiceAppName"
+        /usr/local/bin/jamf policy -event "$completeCustomTrigger"
     fi
     
 fi

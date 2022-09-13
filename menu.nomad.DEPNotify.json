@@ -1,7 +1,7 @@
 {
     "title": "DEPNotify Onboarder Settings",
     "description": "Configuration for the DEPNotify Onboarder deployment script.",
-    "__version": "1.0.1",
+    "__version": "1.0.3",
     "__preferencedomain": "menu.nomad.DEPNotify",
     "links": [
         {
@@ -217,11 +217,11 @@
             "default": 20
         },
 
-        "launchSelfService": {
-            "title": "Launch Self Service",
-            "description": "Launch the Self Service app when onboarding is complete.",
-            "type": "boolean",
-            "default": false
+        "completeCustomTrigger": {
+            "title": "Completion Custom Trigger",
+            "description": "Run policies with a custom trigger after user presses completion button. This may be used to launch Self Service.",
+            "type": "string",
+            "default": "deploymentComplete"
         },
 
         "errorBannerTitle": {
@@ -246,7 +246,7 @@
         },
 
         "FVRestartEnabled": {
-            "title": "FV - Restart Enabled",
+            "title": "FileVault - Restart Enabled",
             "description": "Enable restart for deferred FileVault enablement",
             "type": "boolean",
             "default": true
