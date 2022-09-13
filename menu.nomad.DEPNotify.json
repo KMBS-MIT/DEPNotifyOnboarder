@@ -217,6 +217,13 @@
             "default": 20
         },
 
+        "launchSelfService": {
+            "title": "Self Service - Launch on Completion",
+            "description": "Launch Self Service after DEPNotify exits.",
+            "type": "boolean",
+            "default": false
+        },
+
         "completeCustomTrigger": {
             "title": "Completion Custom Trigger",
             "description": "Run policies with a custom trigger after user presses completion button. This may be used to launch Self Service.",

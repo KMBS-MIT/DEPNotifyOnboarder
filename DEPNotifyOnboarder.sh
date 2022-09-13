@@ -315,6 +315,7 @@ debugDescription "General Appearance" fullscreen bannerImagePath orgName bannerT
 declare -r selfServiceCustomBranding="$(valueForKey selfServiceCustomBranding -defaultValue false)"
 declare -r selfServiceAppName="$(valueForKey selfServiceAppName -defaultValue "Self Service.app")"
 declare -r selfServiceCustomWait="$(valueForKey selfServiceCustomWait -defaultValue 20)"
+declare -r launchSelfService="$(valueForKey launchSelfService -defaultValue false)"
 
 debugDescription "Self Service" selfServiceCustomBranding selfServiceAppName selfServiceCustomWait
 
@@ -650,6 +651,10 @@ else
 
     logCommand MainText "$completeMainText"
     logCommand ContinueButton "$completeButtonText"
+    if [ "$launchSelfService" != "" ] ; then
+        waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
+        /bin/launchctl asuser "$currentUID" sudo -u "$currentUser" /usr/bin/open -a "/Applications/$selfServiceAppName"
+    fi
     if [ "$completeCustomTrigger" != "" ] ; then
         waitForProcessToComplete "DEPNotify" -progressMessage "DEPNotify Still Running."
         /usr/local/bin/jamf policy -event "$completeCustomTrigger"
