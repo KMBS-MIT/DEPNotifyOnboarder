@@ -552,7 +552,7 @@ if [ "$testingMode" = true ] ; then
 fi
 
 # Adding nice text and a brief pause for prettiness
-logStatus "installStartStatus"
+logStatus "$installStartStatus"
 /bin/sleep 5
 
 # Counter is for making the determinate look nice. Starts at one and adds more based on EULA, register, or other options.
