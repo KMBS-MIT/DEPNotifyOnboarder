@@ -19,12 +19,8 @@
 	<key>UserName</key>
 	<string>root</string>
 	
-	<key>ProgramArguments</key>
-	<array>
-		<string>/bin/zsh</string>
-		<string>-c</string>
-		<string>/Library/Application Support/DEPNotify/DEPNotifyOnboarder.sh</string>
-	</array>
+	<key>Program</key>
+	<string>/Library/Application Support/DEPNotify/DEPNotifyOnboarder.sh</string>
 	
 </dict>
 </plist>
