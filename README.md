@@ -1,5 +1,7 @@
 # DEPNotify Onboarder
 
+> Note: Deprecated in favor of Jamf Pro "macOS Onboarding" feature.
+
 Onboarder is designed to start DEPNotify and enrollment policies using a Pre-Stage 
 Enrollment package and Configuration Profile. This addresses some tricky scoping 
 issues that could result in skipped policies with Enrollment triggers and allows 
